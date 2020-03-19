@@ -254,7 +254,7 @@ declare module "eris" {
     avatarURL?: string;
     tts?: boolean;
     wait?: boolean;
-    disableEveryone?: boolean;
+    allowedMentions?: AllowedMentions;
   }
 
   interface EmbedBase {
@@ -375,8 +375,24 @@ declare module "eris" {
     [key: string]: {};
   }
 
-  type MessageContent = string | { content?: string, tts?: boolean, disableEveryone?: boolean, embed?: EmbedOptions };
-  interface MessageFile { file: Buffer | string; name: string; }
+  interface AllowedMentions {
+    everyone?: boolean;
+    roles?: boolean | string[];
+    users?: boolean | string[];
+  }
+  type MessageContent = string | AdvancedMessageContent;
+  type AdvancedMessageContent = {
+    content?: string;
+    tts?: boolean;
+    allowedMentions?: AllowedMentions;
+    embed?: EmbedOptions;
+    flags?: number;
+  }
+
+  interface MessageFile {
+    file: Buffer | string;
+    name: string;
+  }
   interface EmojiBase {
     name: string;
     icon?: string;
@@ -444,7 +460,7 @@ declare module "eris" {
     compress?: boolean;
     connectionTimeout?: number;
     disableEvents?: { [s: string]: boolean };
-    disableEveryone?: boolean;
+    allowedMentions?: AllowedMentions;
     firstShardID?: number;
     getAllUsers?: boolean;
     guildCreateTimeout?: number;
